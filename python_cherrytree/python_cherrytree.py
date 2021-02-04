@@ -6,6 +6,7 @@ import colorama
 from colorama import Fore, Style
 colorama.init()
 
+
 def cprint(status, text):
     if status == "ERROR":
         print(Fore.RED + Style.BRIGHT + "[!] " + text + Style.RESET_ALL)
@@ -14,6 +15,7 @@ def cprint(status, text):
     elif status == "GOOD":
         print(Fore.GREEN + Style.BRIGHT + "[✓] " + text + Style.RESET_ALL)
 
+
 class SqlManager:
 
     def __init__(self, filename):
@@ -21,7 +23,7 @@ class SqlManager:
             with open(filename):
                 pass
         except IOError:
-            cprint("ERROR","File not found !")
+            cprint("ERROR", "File not found !")
             sys.exit(0)
         self.conn = sqlite3.connect(filename)
         self.cur = self.conn.cursor()
@@ -35,7 +37,8 @@ class SqlManager:
 
     def show_nodes(self):
         try:
-            self.cur.execute("SELECT node_id,name,level FROM node ORDER BY node_id")
+            self.cur.execute(
+                "SELECT node_id,name,level FROM node ORDER BY node_id")
         except sqlite3.OperationalError:
             cprint("ERROR", "Can't find node table.")
             sys.exit(0)
@@ -43,7 +46,8 @@ class SqlManager:
             cprint("ERROR", "File is not a database.")
             sys.exit(0)
         results = self.cur.fetchall()
-        tab = tabulate(results, headers=["node_id","name","level"], tablefmt="grid")
+        tab = tabulate(results, headers=[
+                       "node_id", "name", "level"], tablefmt="grid")
         print(tab)
 
     def change_node_name(self, new_name, node_id):
