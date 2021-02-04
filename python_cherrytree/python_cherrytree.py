@@ -74,11 +74,3 @@ class SqlManager:
         except sqlite3.OperationalError:
             cprint("ERROR", "Can't add text into file.")
             sys.exit(0)
-
-# FOR TESTING PURPOSE
-if __name__ == '__main__':
-
-    manager = SqlManager("/tmp/CTF_template.ctb")
-    manager.show_nodes()
-    manager.add_txt("Test", 34)
-    manager.change_node_name("WebDav", 33)
